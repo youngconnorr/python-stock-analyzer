@@ -10,4 +10,16 @@ def fetch_stock_history_data(ticker: str, startDate: str, endDate: str) -> pd.Da
     stock_data = yf.download(ticker, start=startDate, end=endDate)
     return stock_data
 
+def moving_average(data: pd.DataFrame, window: int) -> pd.Series:
+
+    if "Close" not in data:
+        raise ValueError("Invalid Stock: need \"Close\" column")
+    
+    moving_average = data["Close"].rolling(window=window).mean()
+    print(moving_average)
+    return moving_average
+
+
+
+
 
