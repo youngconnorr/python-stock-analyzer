@@ -1,6 +1,6 @@
 ## Stock Scout - A Stock Analyzer 📈
 
-### A Python app delivering in-depth information on each stock in your portfolio! 📁
+### A Python app delivering in-depth information on each stock in your portfolio! 💵💰
 
 ### Technology Used: 🦾
 - Python 🐍
