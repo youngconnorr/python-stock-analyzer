@@ -9,10 +9,10 @@ import stock_analyzer as csOne
 # Add parent directory to sys.path for module imports
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-cs = csOne.ChosenStock("NVDA", "2024-07-01", "2024-07-20")
+cs = csOne.ChosenStock(["NVDA"], "2024-07-01", "2024-07-20", False)
 
 def test_stock_data():
-    data = cs.fetch_stock_history_data()
+    data = cs.fetch_stock_history_data("NVDA")
     # Expected values
     expected_close = 117.93
     expected_open = 120.35
@@ -27,17 +27,16 @@ def test_stock_data():
     np.testing.assert_almost_equal(data["Low"].iloc[-1], expected_low, decimal=2)
     
 def test_stock_data_return():
-    assert isinstance(cs.fetch_stock_history_data(), pd.DataFrame) 
+    assert isinstance(cs.fetch_stock_history_data("NVDA"), pd.DataFrame) 
     
 def test_moving_average_exception():
     test_data = {'col1': [1, 2, 3, 4, 5], 'col2': [0, 0, 0, 0, 0]}
     pd_data = pd.DataFrame(data=test_data)
 
-    stockObjOne = csOne.ChosenStock("AAPL","2020-10-01", "2020-10-11")
-    stockObjOne.stock_data = pd_data 
+    stockObjOne = csOne.ChosenStock(["AAPL"],"2020-10-01", "2020-10-11", False)
     
     with pytest.raises(ValueError, match="Invalid Stock: need \"Close\" column"):
-        stockObjOne.moving_average(window=5)
+        stockObjOne.moving_average(pd_data, 5)
         
 def test_moving_average():
     stock_data = yf.download("NVDA", "2024-07-01", "2024-07-20")
@@ -45,7 +44,7 @@ def test_moving_average():
     new_moving_avg = stock_data["Close"].rolling(window=10).mean()
     expected = new_moving_avg.iloc[-1]
     
-    output = cs.moving_average(10)
+    output = cs.moving_average(stock_data, 10)
     fn_output = output.iloc[-1]
     
     assert isinstance(output, pd.Series)

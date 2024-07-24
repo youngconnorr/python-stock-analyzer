@@ -9,11 +9,12 @@ from typing import Optional
 
 class ChosenStock:
     
-    def __init__(self, ticker: list, start_date: str, end_date: str):
+    def __init__(self, ticker: list, start_date: str, end_date: str, run: bool):
         self.ticker = ticker
         self.start_date = start_date
         self.end_date = end_date
-        self.run_program()
+        if run:
+            self.run_program()
         
         
     def fetch_stock_history_data(self, ticker: str) -> pd.DataFrame:
