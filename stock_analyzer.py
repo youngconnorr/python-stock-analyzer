@@ -9,11 +9,11 @@ from typing import Optional
 
 class ChosenStock:
     
-    def __init__(self, ticker: list, start_date: str, end_date: str, run: bool):
+    def __init__(self, ticker: list, start_date: str, end_date: str, testing: bool):
         self.ticker = ticker
         self.start_date = start_date
         self.end_date = end_date
-        if run:
+        if testing:
             self.run_program()
         
         
