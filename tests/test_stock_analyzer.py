@@ -6,8 +6,6 @@ import yfinance as yf
 import numpy as np  # Import numpy for using assert_almost_equal
 import stock_analyzer as csOne
 
-# Add parent directory to sys.path for module imports
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 cs = csOne.ChosenStock(["NVDA"], "2024-07-01", "2024-07-20", False)
 

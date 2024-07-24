@@ -14,7 +14,7 @@ class ChosenStock:
         self.start_date = start_date
         self.end_date = end_date
         if testing:
-            self.run_program()
+            self.run_static_program()
         
         
     def fetch_stock_history_data(self, ticker: str) -> pd.DataFrame:
@@ -40,28 +40,21 @@ class ChosenStock:
         axis.set_ylabel(f'{ticker} Price')
         axis.legend()
         
-    def run_program(self) -> None:
+    def run_static_program(self) -> None:
         
         num_tickers = len(self.ticker)
         fig, axis = plt.subplots(num_tickers, 1)
         
-        # if num_tickers == 1:
-        #     axis = [0, 0]
-        
-        # data_list = []
-        # moving_data_list = []
-        
         for index, t in enumerate(self.ticker):
             data = self.fetch_stock_history_data(t)
-            # data_list.append(data)
-            
             moving_data = self.moving_average(data, 3)
-            # moving_data_list.append(moving_data)
             
             self.plot_stock_data(axis[index], data, t, moving_data)
         
         plt.tight_layout()
         plt.show()
+        
+        
         
         
         
