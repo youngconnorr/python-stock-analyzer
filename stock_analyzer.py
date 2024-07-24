@@ -28,31 +28,39 @@ class ChosenStock:
         moving_average = stock_data["Close"].rolling(window=window).mean()
         return moving_average
     
-    def plot_stock_data(self, stock_data: pd.DataFrame, ticker: str, moving_average: Optional[pd.Series] = None) -> None:
-        plt.plot(stock_data['Close'], color='black', label='Closing Price')
+    def plot_stock_data(self, axis: int, stock_data: pd.DataFrame, ticker: str, moving_average: Optional[pd.Series] = None) -> None:
+        axis.plot(stock_data['Close'], color='black', label='Closing Price')
     
         if moving_average is not None:
-            plt.plot(moving_average, color='black', label='Closing Price')
+            axis.plot(moving_average, color='blue', label='Moving Average')
     
-        plt.title(f'{ticker} Stock Price')
-        plt.xlabel('Date')
-        plt.ylabel(f'{ticker} Price')
-        plt.legend()
-        plt.show()
+        axis.set_title(f'{ticker} Stock Price')
+        axis.set_xlabel('Date')
+        axis.set_ylabel(f'{ticker} Price')
+        axis.legend()
         
     def run_program(self) -> None:
         
-        data_list = []
-        moving_data_list = []
+        num_tickers = len(self.ticker)
+        fig, axis = plt.subplots(num_tickers, 1)
         
-        for t in self.ticker:
+        # if num_tickers == 1:
+        #     axis = [0, 0]
+        
+        # data_list = []
+        # moving_data_list = []
+        
+        for index, t in enumerate(self.ticker):
             data = self.fetch_stock_history_data(t)
-            data_list.append(data)
+            # data_list.append(data)
             
             moving_data = self.moving_average(data, 3)
-            moving_data_list.append(moving_data)
+            # moving_data_list.append(moving_data)
             
-            self.plot_stock_data(data, t, moving_data)
+            self.plot_stock_data(axis[index], data, t, moving_data)
+        
+        plt.tight_layout()
+        plt.show()
         
         
         
