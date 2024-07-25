@@ -5,6 +5,7 @@ import pandas as pd
 import yfinance as yf
 import numpy as np  # Import numpy for using assert_almost_equal
 import stock_analyzer as csOne
+import dynamic_stock as csTwo
 
 
 cs = csOne.ChosenStock(["NVDA"], "2024-07-01", "2024-07-20", False)
@@ -46,4 +47,7 @@ def test_moving_average():
     fn_output = output.iloc[-1]
     
     assert isinstance(output, pd.Series)
-    assert (fn_output == expected) 
+    assert (fn_output == expected)
+    
+
+ 
