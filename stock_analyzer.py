@@ -13,7 +13,7 @@ class ChosenStock:
         self.ticker = ticker
         self.start_date = start_date
         self.end_date = end_date
-        if testing:
+        if not testing:
             self.run_static_program()
         
         
@@ -38,6 +38,7 @@ class ChosenStock:
         axis.set_title(f'{ticker} Stock Price')
         axis.set_xlabel('Date')
         axis.set_ylabel(f'{ticker} Price')
+        axis.grid(True)
         axis.legend()
         
     def run_static_program(self) -> None:
@@ -45,11 +46,15 @@ class ChosenStock:
         num_tickers = len(self.ticker)
         fig, axis = plt.subplots(num_tickers, 1)
         
+        if num_tickers == 1:
+            axis = [axis]
+        
         for index, t in enumerate(self.ticker):
             data = self.fetch_stock_history_data(t)
             moving_data = self.moving_average(data, 3)
             
             self.plot_stock_data(axis[index], data, t, moving_data)
+        
         
         plt.tight_layout()
         plt.show()
