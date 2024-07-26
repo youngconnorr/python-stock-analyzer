@@ -9,10 +9,12 @@ import pytz
 
 class DynamicStock:
     
-    def __init__(self, ticker: str, period: str, interval: str):
+    def __init__(self, ticker: str, period: str, interval: str, testing: bool):
         self.ticker = ticker
         self.period = period
         self.interval = interval
+    
+            
         
         newYorkTz = pytz.timezone("America/New_York") 
         timeInNewYork = datetime.now(newYorkTz)
@@ -22,20 +24,23 @@ class DynamicStock:
             stock_data = self.fetch()
             cur_stock_price = round(stock_data['Close'].iloc[-1],  4)
             print("Stock Market is Closed. Final Price Today was: " + str(cur_stock_price))
-            
-        stock_data = self.fetch()
-        self.fig, self.ax = plt.subplots()
-        self.line, = self.ax.plot(stock_data['Close'], color='black', label='Closing Price')
-        self.ax.set_title(f'{self.ticker} Stock Price')
-        self.ax.set_xlabel('Date/Hour')
-        self.ax.set_ylabel(f'{self.ticker} Price')
-        # self.ax.xaxis.set_major_formatter(mdates.DateFormatter('%H:%M'))
-        # self.ax.xaxis.set_major_locator(mdates.HourLocator(tz='America/New_York'))
-        self.ax.legend()
-        self.show()
         
-        if int(self.currentTimeInNewYork[:2]) < 16:
-            self.ani = FuncAnimation(self.fig, self.update, interval=5000, frames=100, repeat=False)
+        if testing:
+            print("hello world")
+        else:    
+            stock_data = self.fetch()
+            self.fig, self.ax = plt.subplots()
+            self.line, = self.ax.plot(stock_data['Close'], color='black', label='Closing Price')
+            self.ax.set_title(f'{self.ticker} Stock Price')
+            self.ax.set_xlabel('Date/Hour')
+            self.ax.set_ylabel(f'{self.ticker} Price')
+            # self.ax.xaxis.set_major_formatter(mdates.DateFormatter('%H:%M'))
+            # self.ax.xaxis.set_major_locator(mdates.HourLocator(tz='America/New_York'))
+            self.ax.legend()
+            self.show()
+            
+            if int(self.currentTimeInNewYork[:2]) < 16:
+                self.ani = FuncAnimation(self.fig, self.update, interval=5000, frames=100, repeat=False)
         
 
     

@@ -4,11 +4,13 @@ import pytest
 import pandas as pd
 import yfinance as yf
 import numpy as np  # Import numpy for using assert_almost_equal
-import stock_analyzer as csOne
-import dynamic_stock as csTwo
+import stock_analyzer as sa
+import dynamic_stock as ds
 
 
-cs = csOne.ChosenStock(["NVDA"], "2024-07-01", "2024-07-20", False)
+cs = sa.ChosenStock(["NVDA"], "2024-07-01", "2024-07-20", True)
+ds = ds.DynamicStock("AAPL", "1d", "1m", True)
+
 
 def test_stock_data():
     data = cs.fetch_stock_history_data("NVDA")
@@ -32,7 +34,7 @@ def test_moving_average_exception():
     test_data = {'col1': [1, 2, 3, 4, 5], 'col2': [0, 0, 0, 0, 0]}
     pd_data = pd.DataFrame(data=test_data)
 
-    stockObjOne = csOne.ChosenStock(["AAPL"],"2020-10-01", "2020-10-11", False)
+    stockObjOne = sa.ChosenStock(["AAPL"],"2020-10-01", "2020-10-11", False)
     
     with pytest.raises(ValueError, match="Invalid Stock: need \"Close\" column"):
         stockObjOne.moving_average(pd_data, 5)
@@ -49,5 +51,18 @@ def test_moving_average():
     assert isinstance(output, pd.Series)
     assert (fn_output == expected)
     
+def test_dyanmic_stock_fetch():
+    
+    stock_data = yf.download("AAPL", period="1d", interval="1m")
+    pd_stock_data = pd.DataFrame(data=stock_data)
+    expected = pd_stock_data['Close'].iloc[-1]
+    
+    fetched = ds.fetch()
+    actual = fetched['Close'].iloc[-1]
+    print(actual)
+    
+    assert isinstance(fetched, pd.DataFrame)
+    assert (actual == expected)
 
- 
+
+    

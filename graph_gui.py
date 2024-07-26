@@ -46,7 +46,7 @@ while True:
         tickers = [ticker.strip() for ticker in tickers_value.split(",")]
         
         if tickers:
-            stock = cs.ChosenStock(tickers,"2012-10-01", "2020-10-11", testing=False)
+            stock = cs.ChosenStock(tickers,"2015-10-01", datetime.now(), testing=False)
     
     if event == 'Live View':
         if values['-LIVE_VIEW-']:
