@@ -51,6 +51,6 @@ while True:
     if event == 'Live View':
         if values['-LIVE_VIEW-']:
             live_ticker = values['-LIVE_VIEW-'].strip()
-            stock = ds.DynamicStock(live_ticker, "1d", "1m")
+            stock = ds.DynamicStock(live_ticker, "1d", "1m", testing=False)
 
 window.close()

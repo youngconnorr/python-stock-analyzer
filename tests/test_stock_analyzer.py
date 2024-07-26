@@ -1,6 +1,8 @@
 import sys
 import os
 import pytest
+import pytz
+from datetime import datetime
 import pandas as pd
 import yfinance as yf
 import numpy as np  # Import numpy for using assert_almost_equal
@@ -59,10 +61,26 @@ def test_dyanmic_stock_fetch():
     
     fetched = ds.fetch()
     actual = fetched['Close'].iloc[-1]
-    print(actual)
     
     assert isinstance(fetched, pd.DataFrame)
     assert (actual == expected)
-
+    
+def test_dyanmic_stock_update():
+    
+    stock_data = yf.download("AAPL", period="1d", interval="1m")
+    pd_stock_data = pd.DataFrame(data=stock_data)
+    expected = round(pd_stock_data['Close'].iloc[-1], 4)
+    
+    actual = ds.update()
+    
+    assert isinstance (actual, float)
+    
+    assert (actual == expected)
+    
+    
+    
+    
+    
+    
 
     

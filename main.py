@@ -1,6 +1,3 @@
-import yfinance as yf
-import stock_analyzer as cs
-import dynamic_stock as ds
 import graph_gui as gui
 
 if __name__ == "__main__":
