@@ -7,7 +7,7 @@ from datetime import datetime
 from typing import Optional
 import pytz
 
-
+#Create a dynamic stock that updates every 5 seconds with new stock information if market is open
 class DynamicStock:
     
     def __init__(self, ticker: str, period: str, interval: str, testing: bool):
@@ -42,17 +42,16 @@ class DynamicStock:
             self.show()
         
 
-    
+    #EFFECT: fetch stock data and return a pandas DataFrame
     def fetch(self) -> pd.DataFrame:
-        # Fetch stock data
         stock_data = yf.download(self.ticker, period=self.period, interval=self.interval)
         return stock_data
     
-    def update(self, frame: Optional[int] = None) -> float:
-        # Update stock data
+    #EFFECT: update the graph with new stock information, being called from FuncAnimation
+    def update(self, frame: Optional[int] = None) -> float: # pragma: no cove
         stock_data = self.fetch()
         
-        if not stock_data.empty:  # pragma: no cover
+        if not stock_data.empty:
             cur_stock_price = round(stock_data['Close'].iloc[-1],  4)
             print("Current stock price: " + str(cur_stock_price))
             if not self.testing:
@@ -62,7 +61,7 @@ class DynamicStock:
                 self.fig.canvas.draw()
             return cur_stock_price
         
-    
+    #EFFECT: display graph
     def show(self) -> None:  # pragma: no cover
         plt.grid(True)
         plt.show()

@@ -46,7 +46,7 @@ class ChosenStock:
     def run_static_program(self) -> None:
         
         num_tickers = len(self.ticker)
-        fig, axis = plt.subplots(num_tickers, 1)
+        fig, axis = plt.subplots(num_tickers, 1, figsize=(10, 2 * num_tickers))
         
         if num_tickers == 1:
             axis = [axis]

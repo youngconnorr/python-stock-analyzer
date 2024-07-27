@@ -4,8 +4,6 @@ import dynamic_stock as ds
 from datetime import datetime
 import pytz
 
-# All the stuff inside your window.
-
 layout_open_stocks = [  
             [sg.Text("What stocks would you like to view? (ex. AAPL, AMZN)")],
             [sg.InputText(key='-NORMAL_VIEW-')],
@@ -23,7 +21,7 @@ layout_closed_stocks = [
             [sg.Button('View'), sg.Button('Live View'), sg.Button('Cancel')]   
         ]
 
-# Create the Window
+#Determine if show market closed or open UI
 date = datetime.now()
 newYorkTz = pytz.timezone("America/New_York") 
 timeInNewYork = datetime.now(newYorkTz)
@@ -33,6 +31,8 @@ if int(currentTimeInNewYork[:2]) >= 16 or date.weekday() >= 5:
     window = sg.Window('Stock Scout', layout_closed_stocks, size=(400, 350))
 else: 
     window = sg.Window('Stock Scout', layout_open_stocks, size=(400, 350))
+
+
 
 # Event Loop to process "events" and get the "values" of the inputs
 while True:
@@ -47,7 +47,8 @@ while True:
         tickers = [ticker.strip().upper() for ticker in tickers_value.split(",")]
         
         if tickers:
-            stock = cs.ChosenStock(tickers,"2015-10-01", datetime.now(), testing=False)
+            stock = cs.ChosenStock(tickers,"2018-10-01", datetime.now(), testing=False)
+    
     
     if event == 'Live View':
         if values['-LIVE_VIEW-']:
