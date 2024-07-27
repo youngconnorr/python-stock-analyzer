@@ -17,12 +17,12 @@ class DynamicStock:
         self.testing = testing
     
             
-        
+        date = datetime.now()
         newYorkTz = pytz.timezone("America/New_York") 
         timeInNewYork = datetime.now(newYorkTz)
         self.currentTimeInNewYork = timeInNewYork.strftime("%H:%M:%S")
         
-            
+        #drawing the figure    
         stock_data = self.fetch()
         self.fig, self.ax = plt.subplots()
         self.line, = self.ax.plot(stock_data['Close'], color='black', label='Closing Price')
@@ -30,14 +30,16 @@ class DynamicStock:
         self.ax.set_xlabel('Date/Hour')
         self.ax.set_ylabel(f'{self.ticker} Price')
         self.ax.legend()
-        if int(self.currentTimeInNewYork[:2]) >= 16:
+        
+        #determining if the market is open or closed
+        if int(self.currentTimeInNewYork[:2]) >= 16 or date.weekday() >= 5:
             stock_data = self.fetch()
             cur_stock_price = round(stock_data['Close'].iloc[-1],  4)
             print("Stock Market is Closed. Final Price Today was: " + str(cur_stock_price))
             self.show()
         else:
-            self.show()
             self.ani = FuncAnimation(self.fig, self.update, interval=5000, frames=100, repeat=False)
+            self.show()
         
 
     
@@ -46,20 +48,18 @@ class DynamicStock:
         stock_data = yf.download(self.ticker, period=self.period, interval=self.interval)
         return stock_data
     
-    def update(self, frame: Optional[int] = None) -> float:
+    def update(self, frame: int) -> None:
         # Update stock data
         stock_data = self.fetch()
         
-        if not stock_data.empty: # pragma: no cover
+        if not stock_data.empty:
             cur_stock_price = round(stock_data['Close'].iloc[-1],  4)
-            if not self.testing: 
+            print("Current stock price: " + str(cur_stock_price))
+            if not self.testing:
                 self.line.set_data(stock_data.index, stock_data['Close'])
                 self.ax.relim()
                 self.ax.autoscale_view()
                 self.fig.canvas.draw()
-            return cur_stock_price
-        
-        print("Current stock price: " + str (cur_stock_price)) # pragma: no cover
         
     
     def show(self) -> None:
