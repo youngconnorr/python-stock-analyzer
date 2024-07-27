@@ -35,7 +35,7 @@ class DynamicStock:
         if int(self.currentTimeInNewYork[:2]) >= 16 or date.weekday() >= 5:
             stock_data = self.fetch()
             cur_stock_price = round(stock_data['Close'].iloc[-1],  4)
-            print("Stock Market is Closed. Final Price Today was: " + str(cur_stock_price))
+            print("Stock Market is Closed. Final Price Today was: $" + str(cur_stock_price))
             self.show()
         else:
             self.ani = FuncAnimation(self.fig, self.update, interval=5000, frames=100, repeat=False)
@@ -48,11 +48,11 @@ class DynamicStock:
         stock_data = yf.download(self.ticker, period=self.period, interval=self.interval)
         return stock_data
     
-    def update(self, frame: int) -> None:
+    def update(self, frame: Optional[int] = None) -> float:
         # Update stock data
         stock_data = self.fetch()
         
-        if not stock_data.empty:
+        if not stock_data.empty:  # pragma: no cover
             cur_stock_price = round(stock_data['Close'].iloc[-1],  4)
             print("Current stock price: " + str(cur_stock_price))
             if not self.testing:
@@ -60,8 +60,9 @@ class DynamicStock:
                 self.ax.relim()
                 self.ax.autoscale_view()
                 self.fig.canvas.draw()
+            return cur_stock_price
         
     
-    def show(self) -> None:
+    def show(self) -> None:  # pragma: no cover
         plt.grid(True)
         plt.show()

@@ -30,7 +30,7 @@ class ChosenStock:
         moving_average = stock_data["Close"].rolling(window=window).mean()
         return moving_average
     
-    
+    #EFFECT: Create a plot taking in a DataFrame and optional moving average
     def plot_stock_data(self, axis: int, stock_data: pd.DataFrame, ticker: str, moving_average: Optional[pd.Series] = None) -> None:
         axis.plot(stock_data['Close'], color='black', label='Closing Price')
     
