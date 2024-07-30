@@ -1,11 +1,8 @@
-import sys
-import os
 import pytest
-import pytz
 from datetime import datetime
 import pandas as pd
 import yfinance as yf
-import numpy as np  # Import numpy for using assert_almost_equal
+import numpy as np 
 import stock_analyzer as sa
 import dynamic_stock as ds
 

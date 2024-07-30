@@ -4,6 +4,7 @@ import dynamic_stock as ds
 from datetime import datetime
 import pytz
 
+#layouts depending on market
 layout_open_stocks = [  
             [sg.Text("What stocks would you like to view? (ex. AAPL, AMZN)")],
             [sg.InputText(key='-NORMAL_VIEW-')],

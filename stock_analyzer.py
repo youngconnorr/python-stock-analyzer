@@ -42,10 +42,13 @@ class ChosenStock:
         axis.set_ylabel(f'{ticker} Price')
         axis.grid(True)
         axis.legend()
-        
+    
+    #EFFECT: Create multiple subplots
     def run_static_program(self) -> None:
         
         num_tickers = len(self.ticker)
+        
+        #edit if you need to change layout of subplots
         fig, axis = plt.subplots(num_tickers, 1, figsize=(10, 2 * num_tickers))
         
         if num_tickers == 1:
