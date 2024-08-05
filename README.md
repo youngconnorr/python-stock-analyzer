@@ -5,6 +5,13 @@
 ## Motivation: 💥
 - Sparked by an interest in the stock market, I thought no better way to learn it than to make a Python application based on it!
 
+## Tech Stack: 📚
+ - Python 
+ - Pandas 
+ - YFinance API 
+ - Docker 
+ - GitHub Actions 
+
 
 ## Software Development Life Cycle (SDLC) ♻️
 
