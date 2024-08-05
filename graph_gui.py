@@ -45,15 +45,24 @@ while True:
 
     if event == 'View':
         tickers_value = values['-NORMAL_VIEW-']
-        tickers = [ticker.strip().upper() for ticker in tickers_value.split(",")]
+        tickers = tickers_value.split(",")
+        
+        for ticker in tickers:
+            if not ticker.isalpha():
+                print("invalid input")
+                tickers.remove(ticker)
+                
         
         if tickers:
             stock = cs.ChosenStock(tickers,"2018-10-01", datetime.now(), testing=False)
     
     
     if event == 'Live View':
+        
         if values['-LIVE_VIEW-']:
             live_ticker = values['-LIVE_VIEW-'].strip().upper()
-            stock = ds.DynamicStock(live_ticker, "1d", "1m", testing=False)
+            
+            if live_ticker.isalpha():
+                stock = ds.DynamicStock(live_ticker, "1d", "1m", testing=False)
 
 window.close()
